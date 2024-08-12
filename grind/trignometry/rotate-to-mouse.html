@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+    </head>
+    <body>
+        <canvas id="canvas" width="400" height="400"></canvas>
+        <script src="../include/utils.js"></script>
+        <script src="arrow.js"></script>
+        <script src="ball.js"></script>
+        <script>
+            window.onload = function () {
+                var canvas = document.getElementById('canvas'), 
+                    context = canvas.getContext("2d"),
+                    mouse = utils.captureMouse(canvas),
+                    ball = new Ball(),
+                    angle = 0,
+                    arrow = new Arrow(),
+                    centerY = 200,
+                    centerX = canvas.width / 2,
+                    centerScale = 1,
+                    range = 50,
+                    scaleRange = 0.5,
+                    angleX = 0,
+                    angleY = 0,
+                    xspeed = 0.05,
+                    yspeed = 0.05,
+                    speed = 0.05;
+
+                arrow.x = canvas.width / 2;
+                arrow.y = canvas.height / 2;
+                
+                ball.x = canvas.width / 2;
+                ball.y = canvas.height / 2;
+
+                (function drawFrame () {
+                    window.requestAnimationFrame(drawFrame, canvas);
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+
+                    var dx = mouse.x - arrow.x,
+                        dy = mouse.y - arrow.y;
+
+                    arrow.rotation = Math.atan2(dy, dx); // radians
+                    arrow.draw(context);
+                    
+                    // ball.scaleX = ball.scaleY = centerScale + Math.sin(angle) * scaleRange;
+                    ball.y = centerY + Math.sin(angleY) * range;     
+                    ball.x = centerX + Math.sin(angleX) * range;
+                    // angle += speed;
+                    angleX += xspeed;
+                    angleY += yspeed;
+                    ball.draw(context);
+                }());
+            }
+        </script>
+    </body>
+</html>

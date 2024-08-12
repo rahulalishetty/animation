@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Easing 1</title>
+    <link rel="stylesheet" href="../include/style.css">
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <textarea id="log"></textarea>
+
+    <script src="../include/utils.js"></script>
+    <script src="../classes/ball.js"></script>
+    <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas'),
+          context = canvas.getContext('2d'),
+          log = document.getElementById('log'),
+          ball = new Ball(),
+          easing = 0.05,
+          targetX = canvas.width / 2,
+          targetY = canvas.height / 2
+          counter = 0;
+
+      (function drawFrame () {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        var vx = (targetX - ball.x) * easing,
+            vy = (targetY - ball.y) * easing;
+
+        if(Math.abs(vx) < 0.01 && Math.abs(vy) < 0.01) {
+            ball.x = targetX;
+            ball.y = targetY;
+            window.cancelAnimationFrame(drawFrame, canvas);
+            ball.draw(context);
+            log.value = "Animation Done!";
+            return;
+        }
+        
+        console.log(counter++)
+        ball.x += vx;
+        ball.y += vy;
+        ball.draw(context);
+      }());
+    };
+    </script>
+  </body>
+</html>
