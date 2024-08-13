@@ -9,6 +9,7 @@ function Ball (radius = 40, color = "#ff0000") {
     this.lineWidth = 1;
     this.vx = 0;
     this.vy = 0;
+    this.mass = 1;
 }
 
 Ball.prototype.draw = function (context) {
